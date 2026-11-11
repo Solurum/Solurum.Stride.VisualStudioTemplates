@@ -1,0 +1,48 @@
+name: Build and publish template package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Read package version from tag
+        id: version
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF_NAME -cnotmatch '^v(?<version>(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)$') {
+            throw 'Use a version tag such as v0.2.0 or v0.3.0-preview.1.'
+          }
+          "package_version=$($Matches.version)" >> $env:GITHUB_OUTPUT
+
+      - name: Pack template
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.package_version }}
+        run: dotnet pack working/templatepack.csproj --configuration Release --output artifacts -p:PackageVersion="$env:PACKAGE_VERSION"
+
+      - name: Authenticate to NuGet.org
+        id: nuget
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: Solurum
+
+      - name: Publish template package
+        env:
+          NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push "artifacts/*.nupkg" --api-key "$env:NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate

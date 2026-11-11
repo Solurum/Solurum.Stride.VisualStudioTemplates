@@ -25,3 +25,12 @@ The scene setup follows the [Stride Community Toolkit code-only examples](https:
 
 
 The starter uses the Stride toolkit's transitive ImageSharp 3.1.12 dependency, which currently produces NuGet audit warnings.
+
+## Publish a release
+
+Push a version tag such as `v0.2.0` to run the publishing workflow. The tag supplies the package version, and the `production` job uses NuGet.org Trusted Publishing with the Solurum account.
+
+```powershell
+git tag v0.2.0
+git push origin v0.2.0
+```
