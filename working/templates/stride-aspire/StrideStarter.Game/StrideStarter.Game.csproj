@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Stride.CommunityToolkit.Windows" Version="1.0.0-preview.66" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
+    <ProjectReference Include="../StrideStarter.ServiceDefaults/StrideStarter.ServiceDefaults.csproj" />
+  </ItemGroup>
+</Project>

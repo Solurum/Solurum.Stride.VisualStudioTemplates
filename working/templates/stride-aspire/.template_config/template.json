@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Solurum",
+  "classifications": [
+    "Games",
+    "Stride",
+    "Aspire"
+  ],
+  "identity": "Solurum.Stride.Aspire.Solution",
+  "name": "Stride Code-Only Game with Aspire",
+  "shortName": "solurum-stride-aspire",
+  "sourceName": "StrideStarter",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "solution",
+    "editorTreatAs": "solution"
+  },
+  "primaryOutputs": [
+    {
+      "path": "StrideStarter.sln"
+    }
+  ]
+}
