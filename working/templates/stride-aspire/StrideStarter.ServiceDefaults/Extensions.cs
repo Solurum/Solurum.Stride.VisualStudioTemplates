@@ -18,7 +18,8 @@ public static class Extensions
         });
 
         var telemetry = builder.Services.AddOpenTelemetry()
-            .WithMetrics(metrics => metrics.AddRuntimeInstrumentation());
+            .WithMetrics(metrics => metrics.AddRuntimeInstrumentation().AddMeter("Stride.Game"))
+            .WithTracing(traces => traces.AddSource("Stride.Game"));
 
         if (!string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]))
         {
